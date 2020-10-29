@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
+import MyInput from "./MyInput";
 
 function App() {
+  let [shopItemInput, setShopItemInput] = React.useState("");
+  let test1 = function () {
+    setShopItemInput("");
+  };
+
+  let onChange1 = (e) => {
+    setShopItemInput(e.currentTarget.value);
+    console.log(shopItemInput);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {<MyInput onChange={onChange1} test={test1} value={shopItemInput} />}
     </div>
   );
 }
