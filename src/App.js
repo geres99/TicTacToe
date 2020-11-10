@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import MyButton from "./MyButton";
 
 function App() {
@@ -10,6 +10,11 @@ function App() {
   console.log("app render");
   let [inputValue, setInputValue] = React.useState("");
   let [buttoninfo, setButtonInfo] = React.useState([]);
+  let [time, setTime] = React.useState(new Date());
+  useEffect(() => {
+    const timer = setTimeout(setTime(new Date()), 1000);
+    return () => clearTimeout(timer);
+  });
   return (
     <div className="App">
       <input
@@ -30,6 +35,7 @@ function App() {
       {buttoninfo.map((chuj) => (
         <MyButton textValue={chuj} noob={setButtonInfo} dupas={onClicks} />
       ))}
+      <div>{time.toLocaleTimeString()}</div>
     </div>
   );
 }
