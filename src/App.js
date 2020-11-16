@@ -1,43 +1,17 @@
 import "./App.css";
-import React, { useEffect } from "react";
-import MyButton from "./MyButton";
+import { Game } from "./logic/Game";
+import { Piece } from "./logic/Piece";
 
 function App() {
-  let onClicks = (e) => {
-    console.log(e);
-    setButtonInfo(buttoninfo.filter((x) => x !== e));
-  };
-  console.log("app render");
-  let [inputValue, setInputValue] = React.useState("");
-  let [buttoninfo, setButtonInfo] = React.useState([]);
-  let [time, setTime] = React.useState(new Date());
-  useEffect(() => {
-    const timer = setTimeout(setTime(new Date()), 1000);
-    return () => clearTimeout(timer);
-  });
-  return (
-    <div className="App">
-      <input
-        type="text"
-        onChange={(e) => {
-          setInputValue(e.currentTarget.value);
-        }}
-        value={inputValue}
-      />
-      {inputValue}
-      <button
-        onClick={() => {
-          setButtonInfo([...buttoninfo, inputValue]);
-        }}
-      >
-        dupa
-      </button>
-      {buttoninfo.map((chuj) => (
-        <MyButton textValue={chuj} noob={setButtonInfo} dupas={onClicks} />
-      ))}
-      <div>{time.toLocaleTimeString()}</div>
-    </div>
-  );
+  let piece = new Piece(1, 2, "cross");
+  console.log(piece.type);
+  let piece2 = new Piece(2, 3, "circle");
+  console.log(piece2.type);
+  let game = new Game(2, 3, 4);
+  console.log(game.pieces.slice());
+  game.addPiece(piece2);
+  console.log(game.pieces.slice());
+  return "Hellow World";
 }
 
 export default App;
