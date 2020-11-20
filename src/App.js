@@ -1,17 +1,20 @@
 import "./App.css";
-import { Game } from "./logic/Game";
+import { TicTacToe } from "./logic/TicTacToe";
 import { Piece } from "./logic/Piece";
+import GameDesk from "./GameDesk";
 
 function App() {
-  let piece = new Piece(1, 2, "cross");
-  console.log(piece.type);
-  let piece2 = new Piece(2, 3, "circle");
-  console.log(piece2.type);
-  let game = new Game(2, 3, 4);
-  console.log(game.pieces.slice());
-  game.addPiece(piece2);
-  console.log(game.pieces.slice());
-  return "Hellow World";
+  let piece = [];
+  let myFunction = () => {
+    piece.push(new Piece(1, 2, "cross"));
+    console.log(piece);
+  };
+  return (
+    <div>
+      <button onClick={myFunction}></button>
+      <GameDesk />
+    </div>
+  );
 }
 
 export default App;
