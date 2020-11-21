@@ -22,9 +22,17 @@ function GameDesk() {
     setInputValue(e.target.value);
   };
 
+  let restartGame = () => {
+    setWhosTurn(false);
+    setInputValue("");
+    setBoard([]);
+    setisDisabled(false);
+  };
+
   let myBoard = [];
   let boardSize = 0;
   let boardCreator = () => {
+    boardSize = Number(inputValue);
     for (let i = 0; i < boardSize; i++) {
       myBoard.push([]);
       for (let v = 0; v < boardSize; v++) {
@@ -34,9 +42,19 @@ function GameDesk() {
   };
 
   let startGame = () => {
-    boardSize = Number(inputValue);
-    boardCreator();
-    setBoard(myBoard);
+    if (
+      Math.floor(inputValue) % 1 === 0 &&
+      inputValue !== "" &&
+      Math.floor(inputValue) > 0
+    ) {
+      setisDisabled(true);
+    }
+    if (Math.floor(inputValue) < 20) {
+      boardCreator();
+      setBoard(myBoard);
+    } else {
+      setisDisabled(false);
+    }
   };
 
   let onClick = (e) => {
@@ -60,12 +78,18 @@ function GameDesk() {
 
   let [whosTurn, setWhosTurn] = React.useState(false);
   let [board, setBoard] = React.useState([]);
-  let [inputValue, setInputValue] = React.useState(0);
+  let [inputValue, setInputValue] = React.useState();
+  let [isDisabled, setisDisabled] = React.useState(false);
 
   return (
     <div>
-      <input onChange={inputFunction} />
+      <input
+        onChange={inputFunction}
+        value={inputValue}
+        disabled={isDisabled}
+      />
       <button onClick={startGame}>StartGame</button>
+      <button onClick={restartGame}>RestartGame</button>
       {board.map((x) => (
         <div className="row">{testFunction(x)}</div>
       ))}
