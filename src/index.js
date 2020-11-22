@@ -25,5 +25,5 @@ let piece2 = new Piece(2, 0, "cross");
 game.addPiece(piece);
 game.addPiece(piece1);
 game.addPiece(piece2);
-console.log(game.pieces);
-console.log(game.getWinner());
+//console.log(game.pieces);
+//console.log(game.getWinner());

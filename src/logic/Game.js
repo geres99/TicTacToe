@@ -4,12 +4,6 @@ export class Game {
   pieces = [];
 
   addPiece(piece) {
-    if (piece.x >= this.maxX || piece.x < 0) {
-      throw new Error("X is too big or too small");
-    }
-    if (piece.y >= this.maxY || piece.y < 0) {
-      throw new Error("Y is too big or too small");
-    }
     if (!["circle", "cross", "square"].includes(piece.type)) {
       throw new Error("Type is spelled wrong");
     }
@@ -20,22 +14,46 @@ export class Game {
   }
 
   getWinner() {
-    for (let piece of this.pieces) {
-    }
     for (let i = 0; i < this.pieces.length; i++) {
+      let pointsToWin = 4;
+      let piecesOnWinningPositionsx = [];
+      let piecesOnWinningPositionsy = [];
       let piece = this.pieces[i];
-      let winningPositions = [
-        { x: piece.x - 2, y: piece.y },
-        { x: piece.x - 1, y: piece.y },
-        { x: piece.x + 1, y: piece.y },
-        { x: piece.x + 2, y: piece.y },
-      ];
+      for (let v = 0; v < this.pieces.length; v++) {
+        if (this.pieces[v] !== undefined) {
+          //////// x
+          if (
+            piece.type === this.pieces[v].type &&
+            piece.x === this.pieces[v].x
+          ) {
+            for (let p = 0; p < pointsToWin; p++) {
+              if (piece.y + p === this.pieces[v].y) {
+                console.log(this.pieces[v].type);
+                piecesOnWinningPositionsx.push(piece);
+              }
+            }
+          }
+          //////// y
+          if (
+            piece.type === this.pieces[v].type &&
+            piece.y === this.pieces[v].y
+          ) {
+            for (let p = 0; p < pointsToWin; p++) {
+              if (piece.x + p === this.pieces[v].x) {
+                console.log(this.pieces[v].type);
+                piecesOnWinningPositionsy.push(piece);
+              }
+            }
+          }
+          //////// xy
 
-      let piecesOnWinningPositions = this.pieces
-        .filter((x) => winningPositions.some((y) => x.x === y.x && x.y === y.y))
-        .filter((x) => x.type === piece.type);
-
-      if (piecesOnWinningPositions.length === 2) {
+          //////// yx
+        }
+      }
+      if (piecesOnWinningPositionsx.length === pointsToWin) {
+        return true;
+      }
+      if (piecesOnWinningPositionsy.length === pointsToWin) {
         return true;
       }
     }

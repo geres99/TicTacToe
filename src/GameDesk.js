@@ -76,14 +76,15 @@ function GameDesk() {
           board[array][position][2],
           board[array][position][0]
         );
-        console.log(game.pieces);
         game.addPiece(myPiece);
+
+        setBoard(myArr);
+        setWhosTurn(true);
+
         if (game.getWinner() === true) {
           alert("You Won!");
           game = new Game();
         }
-        setBoard(myArr);
-        setWhosTurn(true);
       }
       if (whosTurn === true) {
         myArr[array][position][0] = "cross";
@@ -92,14 +93,15 @@ function GameDesk() {
           board[array][position][2],
           board[array][position][0]
         );
-        console.log(game.pieces);
         game.addPiece(myPiece);
+
+        setBoard(myArr);
+        setWhosTurn(false);
+
         if (game.getWinner() === true) {
           alert("You Won!");
           game = new Game();
         }
-        setBoard(myArr);
-        setWhosTurn(false);
       }
     }
   };
