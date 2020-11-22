@@ -46,6 +46,9 @@ function GameDesk() {
 
   let startGame = () => {
     game = new Game();
+
+    setMaxLinesToWin([inputValue]);
+
     if (
       Math.floor(inputValue) % 1 === 0 &&
       inputValue !== "" &&
@@ -110,6 +113,7 @@ function GameDesk() {
   let [board, setBoard] = React.useState([]);
   let [inputValue, setInputValue] = React.useState();
   let [isDisabled, setisDisabled] = React.useState(false);
+  let [maxLinesToWin, setMaxLinesToWin] = React.useState([]);
 
   return (
     <div>
@@ -120,6 +124,12 @@ function GameDesk() {
       />
       <button onClick={startGame}>StartGame</button>
       <button onClick={restartGame}>RestartGame</button>
+      {maxLinesToWin.map((x) => (
+        <div>
+          <input></input>Select line length to win: 1 - {x.toString()}
+          <button>Start Game</button>
+        </div>
+      ))}
       {board.map((x) => (
         <div className="row">{testFunction(x)}</div>
       ))}
