@@ -98,7 +98,7 @@ function GameDesk() {
         setWhosTurn(true);
 
         if (game.getWinner() === true) {
-          alert("You Won!");
+          alert("Pink Won!");
           game = new Game();
         }
       }
@@ -115,7 +115,7 @@ function GameDesk() {
         setWhosTurn(false);
 
         if (game.getWinner() === true) {
-          alert("You Won!");
+          alert("Green Won!");
           game = new Game();
         }
       }
