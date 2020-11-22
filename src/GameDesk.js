@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./GameDesk.css";
+import { Game } from "./logic/Game";
 import { Piece } from "./logic/Piece";
 
+let game = new Game();
 function GameDesk() {
   let testFunction = (x) => {
     let sizeCheck = [];
@@ -23,6 +25,7 @@ function GameDesk() {
   };
 
   let restartGame = () => {
+    game = new Game();
     setWhosTurn(false);
     setInputValue("");
     setBoard([]);
@@ -42,6 +45,7 @@ function GameDesk() {
   };
 
   let startGame = () => {
+    game = new Game();
     if (
       Math.floor(inputValue) % 1 === 0 &&
       inputValue !== "" &&
@@ -57,19 +61,43 @@ function GameDesk() {
     }
   };
 
+  useEffect(() => {});
+
   let onClick = (e) => {
     let array = Number(e.target.attributes.array.nodeValue);
     let position = Number(e.target.attributes.position.nodeValue);
     let myArr = board.slice();
+
     if (myArr[array][position][0] === "empty") {
       if (whosTurn === false) {
         myArr[array][position][0] = "square";
-        console.log(myArr[array][position][0], board[array][position][0]);
+        let myPiece = new Piece(
+          myArr[array][position][1],
+          board[array][position][2],
+          board[array][position][0]
+        );
+        console.log(game.pieces);
+        game.addPiece(myPiece);
+        if (game.getWinner() === true) {
+          alert("You Won!");
+          game = new Game();
+        }
         setBoard(myArr);
         setWhosTurn(true);
       }
       if (whosTurn === true) {
         myArr[array][position][0] = "cross";
+        let myPiece = new Piece(
+          myArr[array][position][1],
+          board[array][position][2],
+          board[array][position][0]
+        );
+        console.log(game.pieces);
+        game.addPiece(myPiece);
+        if (game.getWinner() === true) {
+          alert("You Won!");
+          game = new Game();
+        }
         setBoard(myArr);
         setWhosTurn(false);
       }
