@@ -1,6 +1,5 @@
 export class Game {
-  maxX = 3;
-  maxY = 3;
+  winCondition = 0;
   pieces = [];
 
   addPiece(piece) {
@@ -12,10 +11,13 @@ export class Game {
     }
     this.pieces.push(piece);
   }
+  addWinCondition(chosenNumber) {
+    this.winCondition = chosenNumber;
+  }
 
   getWinner() {
     for (let i = 0; i < this.pieces.length; i++) {
-      let pointsToWin = 4;
+      let pointsToWin = this.winCondition;
       let piecesOnWinningPositionsx = [];
       let piecesOnWinningPositionsy = [];
       let piecesOnWinningPositionsxy = [];
@@ -71,16 +73,16 @@ export class Game {
           }
         }
       }
-      if (piecesOnWinningPositionsx.length === pointsToWin) {
+      if (piecesOnWinningPositionsx.length >= pointsToWin) {
         return true;
       }
-      if (piecesOnWinningPositionsy.length === pointsToWin) {
+      if (piecesOnWinningPositionsy.length >= pointsToWin) {
         return true;
       }
-      if (piecesOnWinningPositionsyx.length === pointsToWin) {
+      if (piecesOnWinningPositionsyx.length >= pointsToWin) {
         return true;
       }
-      if (piecesOnWinningPositionsxy.length === pointsToWin) {
+      if (piecesOnWinningPositionsxy.length >= pointsToWin) {
         return true;
       }
     }

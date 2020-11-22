@@ -7,7 +7,7 @@ let game = new Game();
 function GameDesk() {
   let testFunction = (x) => {
     let sizeCheck = [];
-    for (let i = 0; i < Number(inputValue); i++) {
+    for (let i = 0; i < Number(inputValueWin); i++) {
       sizeCheck.push(
         <div
           onClick={onClick}
@@ -23,11 +23,16 @@ function GameDesk() {
   let inputFunction = (e) => {
     setInputValue(e.target.value);
   };
+  let inputFunctionWin = (e) => {
+    setInputValueWin(e.target.value);
+  };
 
   let restartGame = () => {
     game = new Game();
+    setMaxLinesToWin([]);
     setWhosTurn(false);
     setInputValue("");
+    setInputValueWin("");
     setBoard([]);
     setisDisabled(false);
   };
@@ -35,7 +40,7 @@ function GameDesk() {
   let myBoard = [];
   let boardSize = 0;
   let boardCreator = () => {
-    boardSize = Number(inputValue);
+    boardSize = Number(inputValueWin);
     for (let i = 0; i < boardSize; i++) {
       myBoard.push([]);
       for (let v = 0; v < boardSize; v++) {
@@ -44,23 +49,31 @@ function GameDesk() {
     }
   };
 
+  let selectBoardSize = () => {
+    setMaxLinesToWin([inputValueWin]);
+  };
+
   let startGame = () => {
-    game = new Game();
-
-    setMaxLinesToWin([inputValue]);
-
     if (
-      Math.floor(inputValue) % 1 === 0 &&
-      inputValue !== "" &&
-      Math.floor(inputValue) > 0
+      Number(inputValue) >= 1 &&
+      Number(inputValue) <= Number(inputValueWin)
     ) {
-      setisDisabled(true);
-    }
-    if (Math.floor(inputValue) < 20) {
-      boardCreator();
-      setBoard(myBoard);
-    } else {
-      setisDisabled(false);
+      game = new Game();
+      game.addWinCondition(Number(inputValue));
+
+      if (
+        Math.floor(inputValueWin) % 1 === 0 &&
+        inputValueWin !== "" &&
+        Math.floor(inputValueWin) > 0
+      ) {
+        setisDisabled(true);
+      }
+      if (Math.floor(inputValueWin) < 20) {
+        boardCreator();
+        setBoard(myBoard);
+      } else {
+        setisDisabled(false);
+      }
     }
   };
 
@@ -112,22 +125,28 @@ function GameDesk() {
   let [whosTurn, setWhosTurn] = React.useState(false);
   let [board, setBoard] = React.useState([]);
   let [inputValue, setInputValue] = React.useState();
+  let [inputValueWin, setInputValueWin] = React.useState();
   let [isDisabled, setisDisabled] = React.useState(false);
   let [maxLinesToWin, setMaxLinesToWin] = React.useState([]);
 
   return (
     <div>
       <input
-        onChange={inputFunction}
-        value={inputValue}
+        onChange={inputFunctionWin}
+        value={inputValueWin}
         disabled={isDisabled}
       />
-      <button onClick={startGame}>StartGame</button>
-      <button onClick={restartGame}>RestartGame</button>
+      <button onClick={selectBoardSize}>Select Board Size</button>
+      <button onClick={restartGame}>Restart Game</button>
       {maxLinesToWin.map((x) => (
         <div>
-          <input></input>Select line length to win: 1 - {x.toString()}
-          <button>Start Game</button>
+          <input
+            onChange={inputFunction}
+            value={inputValue}
+            disabled={isDisabled}
+          />
+          Select line length to win: 1 - {x.toString()}
+          <button onClick={startGame}>Start Game</button>
         </div>
       ))}
       {board.map((x) => (
