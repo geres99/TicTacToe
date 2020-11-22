@@ -145,7 +145,7 @@ function GameDesk() {
             value={inputValue}
             disabled={isDisabled}
           />
-          Select line length to win: 1 - {x.toString()}
+          Select Win Condition: 1 - {x.toString()}
           <button onClick={startGame}>Start Game</button>
         </div>
       ))}
