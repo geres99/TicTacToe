@@ -35,6 +35,7 @@ function GameDesk() {
     setInputValueWin("");
     setBoard([]);
     setisDisabled(false);
+    setRestartButton([]);
   };
 
   let myBoard = [];
@@ -63,6 +64,7 @@ function GameDesk() {
       game = new Game();
       game.addWinCondition(Number(inputValue));
       game.addDrawCondition(Number(inputValueWin) * Number(inputValueWin));
+      setRestartButton(["x"]);
 
       if (
         Math.floor(inputValueWin) % 1 === 0 &&
@@ -135,33 +137,65 @@ function GameDesk() {
   let [inputValueWin, setInputValueWin] = React.useState();
   let [isDisabled, setisDisabled] = React.useState(false);
   let [maxLinesToWin, setMaxLinesToWin] = React.useState([]);
+  let [restartButton, setRestartButton] = React.useState([]);
 
   return (
-    <div className="column">
-      Select Board Size: 1 - 20
-      <input
-        onChange={inputFunctionWin}
-        value={inputValueWin}
-        disabled={isDisabled}
+    <div className="row">
+      <img
+        src={process.env.PUBLIC_URL + "myboard.png"}
+        height="275px"
+        alt="Tic-Tac-Toe"
       />
-      <button onClick={selectBoardSize}>Select</button>
-      <button onClick={restartGame}>Restart Game</button>
-      {maxLinesToWin.map((x) => (
-        <div>
+      <div className="column">
+        <img
+          src={process.env.PUBLIC_URL + "tictactoe.png"}
+          height="100px"
+          alt="Tic-Tac-Toe"
+        />
+        <div className="firstSet">
+          Select Board Size: 1 - 20
           <input
-            onChange={inputFunction}
-            value={inputValue}
+            onChange={inputFunctionWin}
+            value={inputValueWin}
             disabled={isDisabled}
+            className="myInput"
           />
-          Select Win Condition: 1 - {x.toString()}
-          <button onClick={startGame}>Start Game</button>
+          <button onClick={selectBoardSize} className="myButton">
+            Select
+          </button>
         </div>
-      ))}
-      <div className="board">
-        {board.map((x) => (
-          <div className="row">{testFunction(x)}</div>
+        {maxLinesToWin.map((x) => (
+          <div className="column">
+            <div className="secoundSet">
+              Select Win Condition: 1 - {x.toString()}
+              <input
+                onChange={inputFunction}
+                value={inputValue}
+                disabled={isDisabled}
+                className="myInput"
+              />
+              <button onClick={startGame} className="myButton">
+                Start Game
+              </button>
+            </div>
+          </div>
+        ))}
+        <div className="board">
+          {board.map((x) => (
+            <div className="row">{testFunction(x)}</div>
+          ))}
+        </div>
+        {restartButton.map((x) => (
+          <button onClick={restartGame} className="myButton">
+            Restart Game
+          </button>
         ))}
       </div>
+      <img
+        src={process.env.PUBLIC_URL + "myboard2.png"}
+        height="275px"
+        alt="Tic-Tac-Toe"
+      />
     </div>
   );
 }
