@@ -1,11 +1,9 @@
 export class Game {
   winCondition = 0;
+  drawCondition = 0;
   pieces = [];
 
   addPiece(piece) {
-    if (!["circle", "cross", "square"].includes(piece.type)) {
-      throw new Error("Type is spelled wrong");
-    }
     if (this.pieces.some((x) => x.x === piece.x && x.y === piece.y)) {
       throw new Error("You put element on taken spot");
     }
@@ -13,6 +11,9 @@ export class Game {
   }
   addWinCondition(chosenNumber) {
     this.winCondition = chosenNumber;
+  }
+  addDrawCondition(chosenNumber) {
+    this.drawCondition = chosenNumber;
   }
 
   getWinner() {
@@ -85,6 +86,9 @@ export class Game {
       if (piecesOnWinningPositionsxy.length >= pointsToWin) {
         return true;
       }
+    }
+    if (this.drawCondition === this.pieces.length) {
+      return "draw";
     }
     return false;
   }

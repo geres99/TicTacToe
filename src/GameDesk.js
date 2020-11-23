@@ -50,7 +50,9 @@ function GameDesk() {
   };
 
   let selectBoardSize = () => {
-    setMaxLinesToWin([inputValueWin]);
+    if (Number(inputValueWin) >= 1 && Number(inputValueWin) <= 20) {
+      setMaxLinesToWin([inputValueWin]);
+    }
   };
 
   let startGame = () => {
@@ -60,6 +62,7 @@ function GameDesk() {
     ) {
       game = new Game();
       game.addWinCondition(Number(inputValue));
+      game.addDrawCondition(Number(inputValueWin) * Number(inputValueWin));
 
       if (
         Math.floor(inputValueWin) % 1 === 0 &&
@@ -68,7 +71,7 @@ function GameDesk() {
       ) {
         setisDisabled(true);
       }
-      if (Math.floor(inputValueWin) < 20) {
+      if (Math.floor(inputValueWin) <= 20) {
         boardCreator();
         setBoard(myBoard);
       } else {
@@ -86,7 +89,7 @@ function GameDesk() {
 
     if (myArr[array][position][0] === "empty") {
       if (whosTurn === false) {
-        myArr[array][position][0] = "square";
+        myArr[array][position][0] = "circle";
         let myPiece = new Piece(
           myArr[array][position][1],
           board[array][position][2],
@@ -98,7 +101,7 @@ function GameDesk() {
         setWhosTurn(true);
 
         if (game.getWinner() === true) {
-          alert("Pink Won!");
+          alert("Circle Won!");
           startGame();
         }
       }
@@ -115,9 +118,13 @@ function GameDesk() {
         setWhosTurn(false);
 
         if (game.getWinner() === true) {
-          alert("Green Won!");
+          alert("Cross Won!");
           startGame();
         }
+      }
+      if (game.getWinner() === "draw") {
+        alert("Its a draw!");
+        startGame();
       }
     }
   };
@@ -130,13 +137,14 @@ function GameDesk() {
   let [maxLinesToWin, setMaxLinesToWin] = React.useState([]);
 
   return (
-    <div>
+    <div className="column">
+      Select Board Size: 1 - 20
       <input
         onChange={inputFunctionWin}
         value={inputValueWin}
         disabled={isDisabled}
       />
-      <button onClick={selectBoardSize}>Select Board Size</button>
+      <button onClick={selectBoardSize}>Select</button>
       <button onClick={restartGame}>Restart Game</button>
       {maxLinesToWin.map((x) => (
         <div>
@@ -149,9 +157,11 @@ function GameDesk() {
           <button onClick={startGame}>Start Game</button>
         </div>
       ))}
-      {board.map((x) => (
-        <div className="row">{testFunction(x)}</div>
-      ))}
+      <div className="board">
+        {board.map((x) => (
+          <div className="row">{testFunction(x)}</div>
+        ))}
+      </div>
     </div>
   );
 }
